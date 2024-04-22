@@ -1,0 +1,93 @@
+<!-- templates/home.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        .grid-item {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            text-align: center;
+        }
+        .search-bar {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .search-input {
+            padding: 10px;
+            width: 50%;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .cart {
+            position: fixed;
+            right: 20px;
+            top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="search-bar">
+    <input type="text" class="search-input" placeholder="Search...">
+    <button>Search</button>
+</div>
+
+<div class="cart">Cart</div>
+
+<div class="grid-container">
+    <section>
+        <h2>Books</h2>
+        <div class="grid-container">
+            {% for book in books %}
+            <div class="grid-item">
+                <h3>{{ book.title }}</h3>
+                <p>Author: {{ book.author }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section>
+        <h2>Mobiles</h2>
+        <div class="grid-container">
+            {% for mobile in mobiles %}
+            <div class="grid-item">
+                <h3>{{ mobile.model_name }}</h3>
+                <p>Brand: {{ mobile.type.name }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section>
+        <h2>Clothes</h2>
+        <div class="grid-container">
+            {% for cloth in clothes %}
+            <div class="grid-item">
+                <h3>{{ cloth.name }}</h3>
+                <p>Brand: {{ cloth.brand }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+
+</body>
+</html>

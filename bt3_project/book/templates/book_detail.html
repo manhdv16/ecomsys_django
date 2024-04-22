@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book Detail</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 20px;
+        }
+
+        img {
+            max-width: 100%;
+            height: 300px;
+        }
+
+        h3 {
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin: 5px 0;
+        }
+
+        form {
+            margin-top: 15px;
+        }
+
+        input {
+            width: 40px;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 8px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    {% if book.cover_image %}
+        <img src="{{ book.cover_image.url }}" alt="{{ book.title }}">
+    {% endif %}
+    <div>
+        <h3>{{ book.title }}</h3>
+        
+        <p>Author: {{ book.author }}</p>
+        <p>Published Date: {{ book.published_date }}</p>
+        <p>Description: {{ book.description }}</p>
+        <p>Price: {{book.price}}đ</p>
+        
+        <form method="post" action="{% url 'add_to_cart' book.id %}">
+            {% csrf_token %}
+            <p>Quantity: <input type="text" name="quantity" value="1" /></p>
+            <button type="submit">Add to Cart</button>
+        </form>
+        
+        <button><a href="/../../cart/">View Cart</a></button>
+    </div>
+    <div>
+        <a href="/book/list/">Book List</a>
+        <a href="/">Home</a>
+    </div>
+</body>
+</html>

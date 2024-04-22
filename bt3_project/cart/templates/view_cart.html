@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        img {
+            max-width: 80px;
+            max-height: 80px;
+            margin-right: 10px;
+        }
+
+        p {
+            text-align: right;
+        }
+
+        a {
+            display: flexbox;
+            margin-top: 20px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        a:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Your Cart</h1>
+    <div>
+        {% if cart_items %}
+        <ul>
+            {% for item in cart_items %}
+                <li>
+                    {% if item.img_url %}
+                        <img src="/{{item.img_url}}" alt="{{ item.book_title }}">
+                    {% endif %}
+                    <div>
+                        <p>{{ item.book_title }} - Quantity: {{ item.quantity }} - Price: {{ item.price }}</p>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        <p>Total: {{ total_price }}đ</p>
+
+        {% else %}
+            <p>Your cart is empty.</p>
+        {% endif %}
+    </div>
+    <div>
+        <a href="/">Home</a>
+    </div>
+</body>
+</html>

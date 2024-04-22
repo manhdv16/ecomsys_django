@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        img {
+            max-width: 100%;
+            height: 250px;
+        }
+
+        .search-container {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+        }
+
+        button {
+            padding: 8px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .book-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .book {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .book a {
+            text-decoration: none;
+            color: #3498db;
+        }
+
+        .book a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Book List</h1>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search...">
+        <button type="button" onclick="searchBooks()">Search</button>
+    </div>
+
+    <div class="book-container">
+        {% for book in books %}
+            <div class="book">
+                {% if book.cover_image %}
+                    <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" width="200" height="200">
+                {% endif %}
+                <p><a href="details/{{ book.id }}">{{ book.title }}</a></p>
+                <p>Price: {{book.price}}đ</p>
+            </div>
+        {% endfor %}
+    </div>
+    <div>
+      <a href="/">Back</a>
+    </div>
+    <script>
+        function searchBooks() {
+            var input, filter, bookContainer, books, book, title, i;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            bookContainer = document.getElementsByClassName("book-container")[0];
+            books = bookContainer.getElementsByClassName("book");
+
+            for (i = 0; i < books.length; i++) {
+                title = books[i].getElementsByTagName("a")[0];
+                if (title.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    books[i].style.display = "";
+                } else {
+                    books[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>

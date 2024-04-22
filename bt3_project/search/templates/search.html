@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-gap: 20px;
+        }
+
+        .product {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .product img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .product p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <form method="get">
+        {{ form.as_p }}
+        <button type="submit">Search</button>
+    </form>
+    
+    {% if books %}
+        <h2>Books</h2>
+        <div class="product-grid">
+            {% for book in books %}
+                <div class="product">
+                    {% if book.cover_image %}
+                        <img src="/{{ book.cover_image }}" alt="{{ book.title }}">
+                    {% endif %}
+                    <p><a href="details/{{ book.id }}">{{ book.title }}</a></p>
+                    <p>Price: {{ book.price }}đ</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+    {% if mobiles %}
+        <h2>Mobiles</h2>
+        <div class="product-grid">
+            {% for mobile in mobiles %}
+                <div class="product">
+                    {% if mobile.image %}
+                        <img src="/{{ mobile.image }}" alt="{{ mobile.model_name }}">
+                    {% endif %}
+                    <p><a href="details/{{ mobile.id }}">{{ mobile.model_name }}</a></p>
+                    <p>Price: {{ mobile.price }}đ</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+</body>
+</html>
