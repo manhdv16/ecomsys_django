@@ -5,7 +5,21 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 from user_model.models import user_registration as userreg
 
-### This function is for fetching the user data.
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def user_detail(request):
+    user = request.user
+    user_data = {
+        'username': user.username,
+        'email': user.email,
+    }
+    return Response(user_data)
+
+
 def user_data(uname):
     user = userreg.objects.filter(email = uname)
     for data in user.values():
