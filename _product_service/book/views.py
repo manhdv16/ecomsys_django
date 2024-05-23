@@ -23,6 +23,14 @@ class PublisherViewSet(viewsets.ModelViewSet):
     serializer_class = PublisherSerializer
 
 @api_view(['GET'])
+def get_price_book(request, id):
+    try:
+        book = Book.objects.get(id=id)
+        return JsonResponse({'price': book.price})
+    except Book.DoesNotExist:
+        return JsonResponse({'error': 'Book not found'}, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
 def view_book_by_id(request, id):
     try:
         book = Book.objects.get(id=id)
@@ -40,6 +48,7 @@ def search_book(request):
         if len(books) > 0:
             return Response(serializer.data)
         else:
-            return Response({'error': 'No books found matching the query'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': 'No books found matching the query'}, 
+            status=status.HTTP_404_NOT_FOUND)
     else:
         return Response({'error': 'No query provided'}, status=status.HTTP_400_BAD_REQUEST)

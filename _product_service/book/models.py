@@ -26,7 +26,6 @@ class Book(models.Model):
     title = models.CharField(max_length=255,null=True)
     price = models.CharField(max_length=100,null=True)
     image = models.FileField(upload_to='book/images', blank=True, null=True)
-
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='books')
     author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='books')
     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE, related_name='books')

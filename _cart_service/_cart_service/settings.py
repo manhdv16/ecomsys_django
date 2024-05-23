@@ -30,14 +30,6 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
 ]
 
-# REST_FRAMEWORK = {
-#    'DEFAULT_AUTHENTICATION_CLASSES': (
-#        'rest_framework.authentication.TokenAuthentication',
-#    ),
-#    'DEFAULT_PERMISSION_CLASSES': (
-#         'rest_framework.permissions.IsAdminUser'
-#    ),
-# }
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -74,8 +66,7 @@ WSGI_APPLICATION = '_cart_service.wsgi.application'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.mysql',
-        'ENGINE': 'mysql.connector.django', 
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': '_cart_service',
         'USER': 'root',
         'PASSWORD': 'dvm123',
@@ -83,8 +74,9 @@ DATABASES = {
         'PORT': '3306',
     },
 }
+SESSION_COOKIE_AGE = 86400
 
-
+#SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

@@ -12,4 +12,5 @@ router.register(r'api/categories', CategoryViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('api/search/', views.search_book, name='search_book'),
+    path('api/price/<int:id>/', views.get_price_book, name='get_price_book'),
 ]

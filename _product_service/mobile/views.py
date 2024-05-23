@@ -16,6 +16,15 @@ class TypeViewSet(viewsets.ModelViewSet):
     serializer_class = TypeSerializer
     
 @api_view(['GET'])
+def view_mobile_by_id(request, id):
+    try:
+        mobile = Mobile.objects.get(id=id)
+    except Mobile.DoesNotExist:
+        return Response({'error': 'Mobile not found'}, status=status.HTTP_404_NOT_FOUND)
+    serializer = MobileSerializer(mobile)
+    return Response(serializer.data)
+
+@api_view(['GET'])
 def search_mobile(request):
     query = request.query_params.get('q', None)
     if query is not None:
@@ -24,6 +33,7 @@ def search_mobile(request):
         if len(mobiles) > 0:
             return Response(serializer.data)
         else:
-            return Response({'error': 'No mobiles found matching the query'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': 'No mobiles found matching the query'}, 
+            status=status.HTTP_404_NOT_FOUND)
     else:
         return Response({'error': 'No query provided'}, status=status.HTTP_400_BAD_REQUEST)

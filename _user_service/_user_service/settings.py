@@ -44,13 +44,14 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
 ]
 REST_FRAMEWORK = {
-   'DEFAULT_AUTHENTICATION_CLASSES': (
+   'DEFAULT_AUTHENTICATION_CLASSES': [
        'rest_framework.authentication.TokenAuthentication',
-   ),
-   'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAdminUser'
-   ),
+   ],
+   'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
 }
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -85,17 +86,26 @@ WSGI_APPLICATION = '_user_service.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': '_user_service',
+#         'USER': 'root',
+#         'PASSWORD': 'dvm123',
+#         'HOST': 'localhost',
+#         'PORT': '3306',
+#     },
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': '_user_service',
-        'USER': 'root',
-        'PASSWORD': 'dvm123',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'userservice',
+        'USER': 'postgres',
+        'PASSWORD': '123456',
         'HOST': 'localhost',
-        'PORT': '3306',
-    },
+        'PORT': '5432'
+    }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

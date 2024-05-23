@@ -1,74 +1,27 @@
-from __future__ import unicode_literals
-from django.http import HttpResponse
-from django.shortcuts import render
-import json
-from django.views.decorators.csrf import csrf_exempt
-from user_model.models import user_registration as userreg
-
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from user_model.models import CustomUser
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def user_detail(request):
-    user = request.user
-    user_data = {
-        'username': user.username,
-        'email': user.email,
-    }
-    return Response(user_data)
-
-
-def user_data(uname):
-    user = userreg.objects.filter(email = uname)
-    for data in user.values():
-        return data
-    
-### This function is created for getting the username and password. 
-@csrf_exempt
-def user_info(request):
-    # uname = request.POST.get("User Name")
-    if request.method == 'POST':
-        if 'application/json' in request.META['CONTENT_TYPE']:
-            val1 = json.loads(request.body)
-            uname = val1.get('User Name')
-            resp = {}
-            if uname:
-                ## Calling the getting the user info.
-                respdata = user_data(uname)
-                dict1 = {}
-                if respdata:
-                    dict1['First Name'] = respdata.get('fname','')
-                    dict1['Last Name'] =  respdata.get('lname','')
-                    dict1['Mobile Number'] = respdata.get('mobile','')
-                    dict1['Email Id'] =  respdata.get('email','')
-                    dict1['Address'] =  respdata.get('address','')
-
-                if dict1:
-                    resp['status'] = 'Success'
-                    resp['status_code'] = '200'
-                    resp['data'] = dict1
-
-                ### If a user is not found then it give failed as a response.
-                else:
-                    resp['status'] = 'Failed'
-                    resp['status_code'] = '400'
-                    resp['message'] = 'User Not Found.'
-
-            ### The field value is missing.
-            else:
-                resp['status'] = 'Failed'
-                resp['status_code'] = '400'
-                resp['message'] = 'Fields is mandatory.'
-        else:
-            resp['status'] = 'Failed'
-            resp['status_code'] = '400'
-            resp['message'] = 'Request type is not matched.'
-
-    else:
-        resp['status'] = 'Failed'
-        resp['status_code'] = '400'
-        resp['message'] = 'Request type is not matched.'
-
-    return HttpResponse(json.dumps(resp), content_type = 'application/json')
+    auth_user = request.user
+    try:
+        custom_user = CustomUser.objects.get(user=auth_user)
+        account = custom_user.account
+        fullname = custom_user.fullname
+        address = custom_user.address
+        user_data = {
+            'id': auth_user.id,
+            'username': auth_user.username,
+            'email': auth_user.email,
+            'first_name': fullname.first_name,
+            'last_name': fullname.last_name,
+            'commune': address.commune,
+            'district': address.distrist, 
+            'province': address.province,
+        }
+        return Response({'status': 'success', 'user': user_data})
+    except CustomUser.DoesNotExist:
+        return Response({'status': 'error', 'message': 'User details not found'}, status=404)
